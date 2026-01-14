@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Club Dashboard</title>
+    <style>
+        table { border-collapse: collapse; width: 90%; margin: 20px auto;}
+        th, td { border: 1px solid #333; padding: 8px; text-align: center;}
+        h2, h3 { text-align: center; }
+        a { margin: 0 5px; }
+    </style>
+</head>
+<body>
+
+<h2>Club Dashboard</h2>
+
+<h3>Total Final Income: {{ final_income }}</h3>
+
+<p style="text-align:center;">
+    <a href="{% url 'add_member' %}">Add Member</a> |
+    <a href="{% url 'add_payment' %}">Add Membership Payment</a> |
+    <a href="{% url 'add_event' %}">Add Event</a> |
+    <a href="{% url 'add_expenditure' %}">Add Expenditure</a>
+</p>
+
+<!-- ================= MEMBERS ================= -->
+<h3>Members</h3>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Join Date</th>
+        <th>Action</th>
+    </tr>
+
+    {% for member in members %}
+    <tr>
+        <td>{{ member.name }}</td>
+        <td>{{ member.email }}</td>
+        <td>{{ member.phone }}</td>
+        <td>{{ member.join_date }}</td>
+        <td>
+            <a href="{% url 'edit_member' member.id %}">Edit</a> |
+            <a href="{% url 'delete_member' member.id %}">Delete</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5">No members found</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<!-- ================= PAYMENTS ================= -->
+<h3>Membership Payments</h3>
+<table>
+    <tr>
+        <th>Member</th>
+        <th>Amount</th>
+        <th>Payment Date</th>
+    </tr>
+
+    {% for payment in payments %}
+    <tr>
+        <td>{{ payment.member.name }}</td>
+        <td>{{ payment.amount }}</td>
+        <td>{{ payment.payment_date }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="3">No payments found</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<!-- ================= EVENTS ================= -->
+<h3>Events</h3>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Income</th>
+    </tr>
+
+    {% for event in events %}
+    <tr>
+        <td>{{ event.name }}</td>
+        <td>{{ event.event_date }}</td>
+        <td>{{ event.income }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="3">No events found</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<!-- ================= EXPENDITURES ================= -->
+<h3>Expenditures</h3>
+<table>
+    <tr>
+        <th>Description</th>
+        <th>Amount</th>
+        <th>Date</th>
+    </tr>
+
+    {% for exp in expenses %}
+    <tr>
+        <td>{{ exp.description }}</td>
+        <td>{{ exp.amount }}</td>
+        <td>{{ exp.expense_date }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="3">No expenditures found</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>
