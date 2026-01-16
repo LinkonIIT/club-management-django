@@ -1,0 +1,23 @@
+<h2 class="text-2xl font-bold mb-4">Payment Dashboard</h2>
+
+<p class="mb-3 font-semibold">Total Collection: ৳ {{ total_membership }}</p>
+<a href="{% url 'add_payment' %}" class="btn mb-4 inline-block">+ Add Payment</a>
+
+<div class="card">
+<table class="table">
+<tr><th>Member</th><th>Amount</th><th>Date</th></tr>
+{% for p in payments %}
+<tr>
+    <td>{{ p.member.name }}</td>
+    <td>{{ p.amount }}</td>
+    <td>{{ p.payment_date }}</td>
+</tr>
+{% endfor %}
+</table>
+<div class="text-center mt-4">
+        <a href="{% url 'main_dashboard' %}"
+           class="text-blue-600 hover:underline font-medium">
+            ← Back to Dashboard
+        </a>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<h2 class="text-2xl font-bold mb-4">Event Dashboard</h2>
+
+<p>Total Event Income: ৳ {{ total }}</p>
+<a href="{% url 'add_event' %}" class="btn mb-4 inline-block">+ Add Event</a>
+
+<div class="max-w-5xl mx-auto p-6">
+<table class="table">
+<tr><th>Name</th><th>Date</th><th>Income</th></tr>
+{% for e in events %}
+<tr>
+    <td>{{ e.name }}</td>
+    <td>{{ e.event_date }}</td>
+    <td>{{ e.income }}</td>
+</tr>
+{% endfor %}
+</table>
+<div class="text-center mt-4">
+        <a href="{% url 'main_dashboard' %}"
+           class="text-blue-600 hover:underline font-medium">
+            ← Back to Dashboard
+        </a>
+    </div>
+</div>
