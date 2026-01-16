@@ -20,9 +20,9 @@
     </div>
 
     <!-- Final Balance -->
-    <h3 class="text-xl text-center text-green-600 font-semibold mb-6">
+    <h1 class="text-xl text-center text-green-600 font-semibold mb-6">
         Final Balance: ৳ {{ final_income }}
-    </h3>
+    </h1>
 
     <!-- Navigation Buttons -->
     <div class="flex justify-center gap-4 mb-8">
@@ -63,16 +63,20 @@
 }
 </style>
 
+
+<!-- Pie Chart -->
+<div class="bg-white p-6 rounded shadow mb-6" style="height:400px; width:100%;">
+    <canvas id="incomePieChart" class="w-full h-full"></canvas>
+</div>
+
+
 <!-- Bar Chart -->
 <div class="bg-white p-6 rounded shadow mb-6" style="height:300px; width:100%;">
     <canvas id="incomeChart" class="w-full h-full"></canvas>
     
 </div>
 
-<!-- Pie Chart -->
-<div class="bg-white p-6 rounded shadow mb-6" style="height:400px; width:100%;">
-    <canvas id="incomePieChart" class="w-full h-full"></canvas>
-</div>
+
 
 <script>
 // Parse JSON data from template
@@ -129,4 +133,16 @@ new Chart(pieCtx, {
 </script>
 
 </body>
+
+<!-- Footer -->
+<footer class="bg-white-800 text-black py-4 mt-8">
+    <div class="max-w-6xl mx-auto text-center">
+        <p class="text-sm">
+            &copy; {{ current_year }} My Club Management. All rights reserved.
+        </p>
+        <p class="text-xs mt-1">
+            Designed with ❤️ using Django & TailwindCSS
+        </p>
+    </div>
+</footer>
 </html>

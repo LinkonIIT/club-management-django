@@ -3,6 +3,7 @@ from django.db.models import Sum
 from .models import Member, MembershipPayment, Event, Expenditure
 from .forms import MemberForm, MembershipPaymentForm, EventForm, ExpenditureForm
 import json
+from datetime import datetime
 
 
 from django.shortcuts import render
@@ -31,6 +32,7 @@ def dashboard(request):
         'final_income': final_income,
         'chart_labels_json': json.dumps(chart_labels),
         'chart_data_json': json.dumps(chart_data),
+        'current_year': datetime.now().year,
     }
     return render(request, 'core/dashboard_main.html', context)
 
