@@ -2,11 +2,16 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Sum
 from .models import Member, MembershipPayment, Event, Expenditure
 from .forms import MemberForm, MembershipPaymentForm, EventForm, ExpenditureForm
+import json
 
-# =========================
-# Main Dashboard
-# =========================
+
+from django.shortcuts import render
+from django.db.models import Sum
+import json
+from .models import Member, MembershipPayment, Event, Expenditure
+
 def dashboard(request):
+    # Counts and sums
     total_members = Member.objects.count()
     membership_income = MembershipPayment.objects.aggregate(total=Sum('amount'))['total'] or 0
     event_income = Event.objects.aggregate(total=Sum('income'))['total'] or 0
@@ -14,14 +19,19 @@ def dashboard(request):
 
     final_income = membership_income + event_income - expense
 
+    # Convert Decimals to float for JSON
+    chart_labels = ['Membership', 'Event', 'Expenses']
+    chart_data = [float(membership_income), float(event_income), float(expense)]
+
     context = {
         'total_members': total_members,
         'membership_income': membership_income,
         'event_income': event_income,
         'expense': expense,
-        'final_income': final_income
+        'final_income': final_income,
+        'chart_labels_json': json.dumps(chart_labels),
+        'chart_data_json': json.dumps(chart_data),
     }
-
     return render(request, 'core/dashboard_main.html', context)
 
 # =========================
