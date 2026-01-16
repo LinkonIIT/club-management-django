@@ -54,6 +54,7 @@ def delete_member(request, pk):
 # Membership Payment CRUD
 # =========================
 def add_payment(request):
+    
     if request.method == "POST":
         form = MembershipPaymentForm(request.POST)
         if form.is_valid():
@@ -98,12 +99,38 @@ def member_dashboard(request):
 
 def payment_dashboard(request):
     payments = MembershipPayment.objects.all()
-    return render(request, 'core/dashboard_payments.html', {'payments': payments})
+   
+    payments = MembershipPayment.objects.select_related('member').all()
+    final_income = payments.aggregate(total=Sum('amount'))['total'] or 0
+
+    context = {
+        'payments': payments,
+        'final_income': final_income,
+    }
+    return render(request, 'core/dashboard_payments.html', context)
+
+    
+    
 
 def event_dashboard(request):
     events = Event.objects.all()
-    return render(request, 'core/dashboard_events.html', {'events': events})
+    events = Event.objects.all()
+    total_income = events.aggregate(total=Sum('income'))['total'] or 0
+
+    context = {
+        'events': events,
+        'total': total_income,  # matches your template variable {{ total }}
+    }
+    return render(request, 'core/dashboard_events.html', context)
+    
 
 def expense_dashboard(request):
     expenses = Expenditure.objects.all()
-    return render(request, 'core/dashboard_expenses.html', {'expenses': expenses})
+    total_expense = expenses.aggregate(total=Sum('amount'))['total'] or 0
+
+    context = {
+        'expenses': expenses,
+        'total': total_expense,  # matches {{ total }} in template
+    }
+    return render(request, 'core/dashboard_expenses.html', context)
+

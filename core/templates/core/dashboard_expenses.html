@@ -1,24 +1,58 @@
-<h2 class="text-2xl font-bold mb-4">Expenditure Dashboard</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Expenditure Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
 
-<p>Total Expense: ৳ {{ total }}</p>
-<a href="{% url 'add_expenditure' %}" class="btn mb-4 inline-block">+ Add Expense</a>
+<div class="max-w-7xl mx-auto text-center mb-4">
 
+    <!-- Header -->
+    <h2 class="text-2xl font-bold mb-4">Expenditure Dashboard</h2>
 
-<div class="card">
-<table class="table">
-<tr><th>Description</th><th>Amount</th><th>Date</th></tr>
-{% for ex in expenses %}
-<tr>
-    <td>{{ ex.description }}</td>
-    <td>{{ ex.amount }}</td>
-    <td>{{ ex.expense_date }}</td>
-</tr>
-{% endfor %}
-</table>
-<div class="text-center mt-4">
-        <a href="{% url 'main_dashboard' %}"
-           class="text-blue-600 hover:underline font-medium">
+    <!-- Total Expense -->
+    <p class="mb-3 font-semibold">Total Expense: ৳ {{ total }}</p>
+
+    <!-- Add Expense Button -->
+    <a href="{% url 'add_expenditure' %}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-4 inline-block">
+        + Add Expense
+    </a>
+
+    <!-- Expenses Table Card -->
+    <div class="bg-white shadow rounded p-4 overflow-x-auto">
+        <table class="table-auto w-full border border-gray-300">
+            <thead class="bg-gray-200">
+                <tr>
+                    <th class="border px-2 py-2 ">Description</th>
+                    <th class="border px-2 py-2 ">Amount</th>
+                    <th class="border px-2 py-2 ">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ex in expenses %}
+                <tr class="hover:bg-gray-50">
+                    <td class="border px-2 py-1 text-left">{{ ex.description }}</td>
+                    <td class="border px-2 py-1 text-left">৳ {{ ex.amount }}</td>
+                    <td class="border px-2 py-1 text-left">{{ ex.expense_date }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td class="border px-2 py-1 text-center" colspan="3">No expenses yet</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Back to Dashboard Link -->
+    <div class="text-center mt-6">
+        <a href="{% url 'main_dashboard' %}" class="text-blue-600 hover:underline font-medium">
             ← Back to Dashboard
         </a>
+    </div>
+
 </div>
-</div>
+
+</body>
+</html>

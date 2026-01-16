@@ -14,6 +14,7 @@ urlpatterns = [
     # Membership Payment URLs
     path('payments/', views.payment_dashboard, name='payment_dashboard'),
     path('payments/add/', views.add_payment, name='add_payment'),
+   
 
     # Event URLs
     path('events/', views.event_dashboard, name='event_dashboard'),
