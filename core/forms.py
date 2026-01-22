@@ -1,6 +1,5 @@
 from django import forms
 from .models import Member, MembershipPayment, Event, Expenditure
-
 COMMON_INPUT_CLASS = "w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
 
 class MemberForm(forms.ModelForm):

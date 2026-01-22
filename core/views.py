@@ -4,8 +4,6 @@ from .models import Member, MembershipPayment, Event, Expenditure
 from .forms import MemberForm, MembershipPaymentForm, EventForm, ExpenditureForm
 import json
 from datetime import datetime
-
-
 from django.shortcuts import render
 from django.db.models import Sum
 import json
@@ -17,13 +15,10 @@ def dashboard(request):
     membership_income = MembershipPayment.objects.aggregate(total=Sum('amount'))['total'] or 0
     event_income = Event.objects.aggregate(total=Sum('income'))['total'] or 0
     expense = Expenditure.objects.aggregate(total=Sum('amount'))['total'] or 0
-
     final_income = membership_income + event_income - expense
-
     # Convert Decimals to float for JSON
     chart_labels = ['Membership', 'Event', 'Expenses']
     chart_data = [float(membership_income), float(event_income), float(expense)]
-
     context = {
         'total_members': total_members,
         'membership_income': membership_income,
@@ -35,10 +30,7 @@ def dashboard(request):
         'current_year': datetime.now().year,
     }
     return render(request, 'core/dashboard_main.html', context)
-
-# =========================
 # Member CRUD
-# =========================
 def add_member(request):
     if request.method == "POST":
         form = MemberForm(request.POST)
@@ -62,9 +54,7 @@ def delete_member(request, pk):
     member.delete()
     return redirect('member_dashboard')
 
-# =========================
 # Membership Payment CRUD
-# =========================
 def add_payment(request):
     
     if request.method == "POST":
@@ -76,9 +66,7 @@ def add_payment(request):
         form = MembershipPaymentForm()
     return render(request, 'core/form.html', {'form': form, 'title': 'Add Membership Payment'})
 
-# =========================
 # Event CRUD
-# =========================
 def add_event(request):
     if request.method == "POST":
         form = EventForm(request.POST)
@@ -89,9 +77,7 @@ def add_event(request):
         form = EventForm()
     return render(request, 'core/form.html', {'form': form, 'title': 'Add Event'})
 
-# =========================
 # Expenditure CRUD
-# =========================
 def add_expenditure(request):
     if request.method == "POST":
         form = ExpenditureForm(request.POST)
@@ -102,47 +88,36 @@ def add_expenditure(request):
         form = ExpenditureForm()
     return render(request, 'core/form.html', {'form': form, 'title': 'Add Expenditure'})
 
-# =========================
 # Separate Segment Dashboards
-# =========================
 def member_dashboard(request):
     members = Member.objects.all()
     return render(request, 'core/dashboard_members.html', {'members': members})
 
 def payment_dashboard(request):
     payments = MembershipPayment.objects.all()
-   
     payments = MembershipPayment.objects.select_related('member').all()
     final_income = payments.aggregate(total=Sum('amount'))['total'] or 0
-
     context = {
         'payments': payments,
         'final_income': final_income,
     }
-    return render(request, 'core/dashboard_payments.html', context)
-
-    
-    
+    return render(request, 'core/dashboard_payments.html', context)  
 
 def event_dashboard(request):
     events = Event.objects.all()
     events = Event.objects.all()
     total_income = events.aggregate(total=Sum('income'))['total'] or 0
-
     context = {
         'events': events,
         'total': total_income,  # matches your template variable {{ total }}
     }
     return render(request, 'core/dashboard_events.html', context)
     
-
 def expense_dashboard(request):
     expenses = Expenditure.objects.all()
     total_expense = expenses.aggregate(total=Sum('amount'))['total'] or 0
-
     context = {
         'expenses': expenses,
         'total': total_expense,  # matches {{ total }} in template
     }
     return render(request, 'core/dashboard_expenses.html', context)
-

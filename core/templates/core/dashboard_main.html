@@ -6,24 +6,18 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-gray-100 p-6">
-
 <div class="max-w-6xl mx-auto">
-
     <h2 class="text-3xl font-bold text-center mb-6">Club Main Dashboard</h2>
-
-    <!-- Summary Cards -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
         <div class="card">Members <br><b>{{ total_members }}</b></div>
         <div class="card">Membership <br><b>৳ {{ membership_income }}</b></div>
         <div class="card">Events <br><b>৳ {{ event_income }}</b></div>
         <div class="card">Expenses <br><b>৳ {{ expense }}</b></div>
     </div>
-
     <!-- Final Balance -->
     <h1 class="text-xl text-center text-green-600 font-semibold mb-6">
         Final Balance: ৳ {{ final_income }}
     </h1>
-
     <!-- Navigation Buttons -->
     <div class="flex justify-center gap-4 mb-8">
         <a href="{% url 'member_dashboard' %}" class="btn">Members</a>
@@ -31,15 +25,10 @@
         <a href="{% url 'event_dashboard' %}" class="btn">Events</a>
         <a href="{% url 'expense_dashboard' %}" class="btn">Expenses</a>
     </div>
-
     <!-- Hidden JSON for charts -->
     <script id="chart-labels" type="application/json">{{ chart_labels_json|safe }}</script>
     <script id="chart-data" type="application/json">{{ chart_data_json|safe }}</script>
-
-    
-
 </div>
-
 <style>
 .card {
     background:white;
@@ -62,27 +51,18 @@
     background:#1d4ed8;
 }
 </style>
-
-
 <!-- Pie Chart -->
 <div class="bg-white p-6 rounded shadow mb-6" style="height:400px; width:100%;">
     <canvas id="incomePieChart" class="w-full h-full"></canvas>
 </div>
-
-
 <!-- Bar Chart -->
 <div class="bg-white p-6 rounded shadow mb-6" style="height:300px; width:100%;">
-    <canvas id="incomeChart" class="w-full h-full"></canvas>
-    
+    <canvas id="incomeChart" class="w-full h-full"></canvas>   
 </div>
-
-
-
 <script>
 // Parse JSON data from template
 const labels = JSON.parse(document.getElementById('chart-labels').textContent);
 const data = JSON.parse(document.getElementById('chart-data').textContent);
-
 // Bar Chart
 const barCtx = document.getElementById('incomeChart').getContext('2d');
 new Chart(barCtx, {
@@ -107,7 +87,6 @@ new Chart(barCtx, {
         scales: { y: { beginAtZero: true } }
     }
 });
-
 // Pie Chart
 const pieCtx = document.getElementById('incomePieChart').getContext('2d');
 new Chart(pieCtx, {
@@ -131,9 +110,7 @@ new Chart(pieCtx, {
     }
 });
 </script>
-
 </body>
-
 <!-- Footer -->
 <footer class="bg-white-800 text-black py-4 mt-8">
     <div class="max-w-6xl mx-auto text-center">
